@@ -5,9 +5,9 @@ import { useMutation } from "@apollo/client/react";
 import { graphql } from "../gql";
 
 // Utilise Codegen pour gérer la génération de schéma graphql
-const SIGNIN_DINER = graphql(`
-	mutation SignIn($data: LoginDinerInput!) {
-		signIn(data: $data) {
+const CREATE_DINER = graphql(`
+	mutation SignUp($data: SignUpDinerInput!) {
+		signUp(data: $data) {
 			accessToken
 			diner {
 				publicId
@@ -16,24 +16,30 @@ const SIGNIN_DINER = graphql(`
 	}
 `);
 
-export default function SignInPage() {
+export default function SignUpPage() {
 	const navigate = useNavigate();
-
 	const [email, setEmail] = useState<string>("");
+	const [firstName, setFirstName] = useState<string>("");
+	const [lastName, setLastName] = useState<string>("");
+	const [phone, setPhone] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
-	const [signInUser] = useMutation(SIGNIN_DINER, {
-		variables: { data: { email, password } },
+	const [signUpUser] = useMutation(CREATE_DINER, {
+		variables: {
+			data: {
+				diner: { email, firstName, lastName, phone },
+				password,
+			},
+		},
 	});
 
 	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const res = await signInUser();
+		const res = await signUpUser();
 		const { data } = res;
 		if (data) {
-			const { accessToken } = data.signIn;
-			const { publicId } = data.signIn.diner;
+			const { accessToken } = data.signUp;
+			const { publicId } = data.signUp.diner;
 			console.log({ accessToken, publicId });
-			navigate("/signup");
 		}
 	};
 
@@ -52,7 +58,7 @@ export default function SignInPage() {
 						className="mx-auto h-10 w-auto not-dark:hidden"
 					/>
 					<h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
-						Welcome back to Forkflow !
+						Welcome to Forkflow !
 					</h2>
 				</div>
 
@@ -113,18 +119,18 @@ export default function SignInPage() {
 								type="submit"
 								className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
 							>
-								Sign in
+								Sign up
 							</button>
 						</div>
 					</form>
 
 					<p className="mt-10 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-						Not a member?{" "}
+						Already a member?{" "}
 						<a
-							onClick={() => navigate("/signup")}
+							onClick={() => navigate("/")}
 							className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 cursor-pointer"
 						>
-							Sign up
+							Sign in
 						</a>
 					</p>
 				</div>

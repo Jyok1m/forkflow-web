@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router";
-import SignIn from "./pages/SignIn";
+import SignInPage from "./pages/SignIn";
 import "./App.css";
+import SignUpPage from "./pages/SignUp";
 
 function App() {
 	return (
 		<Routes>
-			<Route index element={<SignIn />} />
+			<Route index element={<SignInPage />} />
+			<Route path="signup" element={<SignUpPage />} />
 		</Routes>
 	);
 }
