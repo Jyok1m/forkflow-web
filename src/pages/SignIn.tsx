@@ -39,9 +39,9 @@ export default function SignInPage() {
 
 		const { data } = res;
 		if (data) {
-			const { accessToken } = data.signIn;
-			const { publicId } = data.signIn.diner;
-			console.log({ accessToken, publicId });
+			// const { accessToken } = data.signIn;
+			// const { publicId } = data.signIn.diner;
+			// console.log({ accessToken, publicId });
 			navigate("/signup");
 		}
 	}
