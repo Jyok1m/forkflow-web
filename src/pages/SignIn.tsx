@@ -1,8 +1,14 @@
-import type React from "react";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client/react";
 import { graphql } from "../gql";
+import Input from "../components/common/Input";
+import Button from "../components/common/Button";
+
+type Inputs = {
+	email: string;
+	password: string;
+};
 
 // Utilise Codegen pour gérer la génération de schéma graphql
 const SIGNIN_DINER = graphql(`
@@ -18,16 +24,19 @@ const SIGNIN_DINER = graphql(`
 
 export default function SignInPage() {
 	const navigate = useNavigate();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<Inputs>();
 
-	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-	const [signInUser] = useMutation(SIGNIN_DINER, {
-		variables: { data: { email, password } },
-	});
+	const [signInUser] = useMutation(SIGNIN_DINER);
 
-	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const res = await signInUser();
+	async function onSubmit(input: Inputs) {
+		const res = await signInUser({
+			variables: { data: { ...input } },
+		});
+
 		const { data } = res;
 		if (data) {
 			const { accessToken } = data.signIn;
@@ -35,7 +44,7 @@ export default function SignInPage() {
 			console.log({ accessToken, publicId });
 			navigate("/signup");
 		}
-	};
+	}
 
 	return (
 		<>
@@ -57,65 +66,28 @@ export default function SignInPage() {
 				</div>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form onSubmit={handleSubmit} className="space-y-6">
-						<div>
-							<label
-								htmlFor="email"
-								className="flex text-sm/6 font-medium text-gray-900 dark:text-gray-100"
-							>
-								Email address
-							</label>
-							<div className="mt-2">
-								<input
-									id="email"
-									name="email"
-									type="email"
-									required
-									autoComplete="email"
-									onChange={(e) => setEmail(e.target.value)}
-									className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
-								/>
-							</div>
-						</div>
+					<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+						<Input
+							label="Email address"
+							inputName="email"
+							autoComplete="email"
+							type="email"
+							isRequired
+							error={errors.email && "Email address is required"}
+							{...register("email", { required: true })}
+						/>
 
-						<div>
-							<div className="flex items-center justify-between">
-								<label
-									htmlFor="password"
-									className="block text-sm/6 font-medium text-gray-900 dark:text-gray-100"
-								>
-									Password
-								</label>
-								<div className="text-sm">
-									<a
-										href="#"
-										className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
-									>
-										Forgot password?
-									</a>
-								</div>
-							</div>
-							<div className="mt-2">
-								<input
-									id="password"
-									name="password"
-									type="password"
-									required
-									autoComplete="current-password"
-									onChange={(e) => setPassword(e.target.value)}
-									className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
-								/>
-							</div>
-						</div>
+						<Input
+							label="Password"
+							inputName="password"
+							autoComplete="current-password"
+							type="password"
+							isRequired
+							error={errors.password && "Password is required"}
+							{...register("password", { required: true })}
+						/>
 
-						<div>
-							<button
-								type="submit"
-								className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:shadow-none dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
-							>
-								Sign in
-							</button>
-						</div>
+						<Button label="Sign in" type="submit" />
 					</form>
 
 					<p className="mt-10 text-center text-sm/6 text-gray-500 dark:text-gray-400">
