@@ -25,7 +25,7 @@ const RESTAURANTS = graphql(`
 export default function HomePage() {
 	const { data, loading, error } = useQuery(RESTAURANTS);
 
-	if (loading) return <p>Loading…</p>;
+	if (loading) return <></>;
 	if (error) return <p>Something went wrong: {error.message}</p>;
 
 	return (
