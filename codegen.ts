@@ -2,7 +2,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
 	// Schéma lu depuis l'API en cours d'exécution (autoSchemaFile en mémoire)
-	schema: "http://127.0.0.1:3000/graphql",
+	schema: process.env.VITE_BACKEND_URL,
 	// Où chercher tes opérations gql`...`
 	documents: ["src/**/*.{ts,tsx}"],
 	ignoreNoDocuments: true,
