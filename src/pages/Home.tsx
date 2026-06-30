@@ -15,6 +15,9 @@ const RESTAURANTS = graphql(`
 			postCode
 			country
 			style
+			serviceSlots {
+				date
+			}
 		}
 	}
 `);

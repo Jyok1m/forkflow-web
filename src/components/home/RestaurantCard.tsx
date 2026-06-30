@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 interface RestaurantCardProps {
 	publicId: string;
 	name: string;
@@ -8,9 +10,23 @@ interface RestaurantCardProps {
 	country: string;
 	bannerUrl: string;
 	style: string;
+	serviceSlots: {
+		date: string;
+	}[];
 }
 
 function RestaurantCard({ ...props }: RestaurantCardProps) {
+	const now = dayjs();
+	const nextSlot = props.serviceSlots
+		.filter((s) => dayjs(Number(s.date)).isAfter(now))
+		.toSorted(
+			(a, b) =>
+				dayjs(Number(a.date)).valueOf() - dayjs(Number(b.date)).valueOf(),
+		)
+		.at(0);
+
+	const nextSlotDate = nextSlot ? dayjs(Number(nextSlot.date)) : null;
+
 	return (
 		<article
 			key={props.publicId}
@@ -26,12 +42,18 @@ function RestaurantCard({ ...props }: RestaurantCardProps) {
 			</div>
 			<div className="flex max-w-xl flex-col justify-between w-full">
 				<div className="mt-5 flex items-center justify-center gap-x-4 text-xs">
-					{/* <time
-						dateTime={post.datetime}
-						className="text-gray-500 dark:text-gray-400"
-					>
-						{post.date}
-					</time> */}
+					{nextSlotDate ? (
+						<time
+							dateTime={nextSlotDate.toISOString()}
+							className="text-gray-500 dark:text-gray-400"
+						>
+							Avail : {nextSlotDate.format("DD MMM YYYY")}
+						</time>
+					) : (
+						<span className="text-gray-500 dark:text-gray-400">
+							No upcoming service
+						</span>
+					)}
 					<span className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 dark:bg-gray-800/60 dark:text-gray-300 dark:hover:bg-gray-800">
 						{props.style}
 					</span>

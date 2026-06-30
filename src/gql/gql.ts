@@ -14,12 +14,12 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t}\n\t}\n": typeof types.RestaurantsDocument,
+    "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t\tserviceSlots {\n\t\t\t\tdate\n\t\t\t}\n\t\t}\n\t}\n": typeof types.RestaurantsDocument,
     "\n\tmutation SignIn($data: LoginDinerInput!) {\n\t\tsignIn(data: $data) {\n\t\t\taccessToken\n\t\t\tdiner {\n\t\t\t\tpublicId\n\t\t\t}\n\t\t}\n\t}\n": typeof types.SignInDocument,
     "\n\tmutation SignUp($data: SignUpDinerInput!) {\n\t\tsignUp(data: $data) {\n\t\t\taccessToken\n\t\t\tdiner {\n\t\t\t\tpublicId\n\t\t\t}\n\t\t}\n\t}\n": typeof types.SignUpDocument,
 };
 const documents: Documents = {
-    "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t}\n\t}\n": types.RestaurantsDocument,
+    "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t\tserviceSlots {\n\t\t\t\tdate\n\t\t\t}\n\t\t}\n\t}\n": types.RestaurantsDocument,
     "\n\tmutation SignIn($data: LoginDinerInput!) {\n\t\tsignIn(data: $data) {\n\t\t\taccessToken\n\t\t\tdiner {\n\t\t\t\tpublicId\n\t\t\t}\n\t\t}\n\t}\n": types.SignInDocument,
     "\n\tmutation SignUp($data: SignUpDinerInput!) {\n\t\tsignUp(data: $data) {\n\t\t\taccessToken\n\t\t\tdiner {\n\t\t\t\tpublicId\n\t\t\t}\n\t\t}\n\t}\n": types.SignUpDocument,
 };
@@ -41,7 +41,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t\tserviceSlots {\n\t\t\t\tdate\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery Restaurants {\n\t\trestaurants {\n\t\t\tpublicId\n\t\t\tname\n\t\t\tbannerUrl\n\t\t\tline1\n\t\t\tline2\n\t\t\tcity\n\t\t\tpostCode\n\t\t\tcountry\n\t\t\tstyle\n\t\t\tserviceSlots {\n\t\t\t\tdate\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
